@@ -34,17 +34,40 @@ public class Greep extends Creature
     {
         super.act();   // do not delete! leave as first statement in act().
         if (carryingTomato()) {
-            if (atShip()) {
-                dropTomato();
-            }
-            else {
-                turnHome();
+              spit("red");
+            if (atWater ()) {        
+                spit("purple");
+                turn(80);
                 move();
             }
+              if (atShip()) {
+                dropTomato();
+                turn(180);
+                move();
+              }
+              else {                
+                turnHome();
+                move(); 
+                spit("Red");
+              }
         }
-        else {
-            move();
+        else 
+        {
             checkFood();
+            
+        }
+        if (atWater ()) {        
+                spit("purple");
+                turn(60);
+                move();
+        }
+        if (isAtEdge() )
+            {
+             turn(80);   
+            }
+        if (isTouching (Paint.class)) 
+        {            
+            move();
         }
     }
     
@@ -57,8 +80,10 @@ public class Greep extends Creature
         TomatoPile tomatoes = (TomatoPile) getOneIntersectingObject(TomatoPile.class);
         if (tomatoes != null) {
             loadTomato();
-            // Note: this attempts to load a tomato onto *another* Greep. It won't
-            // do anything if we are alone here.
+            spit("red");       
+        }
+        else {
+            move();
         }
     }
 
@@ -67,9 +92,9 @@ public class Greep extends Creature
      */
     public static String getAuthorName()
     {
-        return "Anonymous";  // write your name here!
+        return "Micah B. Pace";  // write your name here!
     }
-
+    
     /**
      * This method specifies the image we want displayed at any time. (No need 
      * to change this for the competition.)
@@ -78,6 +103,7 @@ public class Greep extends Creature
     {
         if (carryingTomato()) {
             return "greep-with-food.png";
+            
         }
         else {
             return "greep.png";
